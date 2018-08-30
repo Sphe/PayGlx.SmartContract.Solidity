@@ -1,0 +1,1 @@
+# PayGlx.SmartContract.Solidity
