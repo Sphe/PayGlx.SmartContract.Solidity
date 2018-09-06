@@ -1,12 +1,12 @@
 pragma solidity ^0.4.23;
 
-import "openzeppelin-solidity/contracts/ownership/Claimable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/ownership/Claimable.sol";
 
 contract AddressList is Claimable {
     string public name;
     mapping (address => bool) public onList;
 
-    function AddressList(string _name, bool nullValue) public {
+    constructor(string _name, bool nullValue) public {
         name = _name;
         onList[0x0] = nullValue;
     }
@@ -18,7 +18,7 @@ contract AddressList is Claimable {
         require(_to != 0x0);
         if (onList[_to] != _onList) {
             onList[_to] = _onList;
-            ChangeWhiteList(_to, _onList);
+            emit ChangeWhiteList(_to, _onList);
         }
     }
 }

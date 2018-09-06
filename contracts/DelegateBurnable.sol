@@ -17,6 +17,7 @@ pragma solidity ^0.4.23;
 // to be moved over to a new contract.
 // NOTE: To maintain backwards compatibility, these function signatures
 // cannot be changed
+
 contract DelegateBurnable {
     function delegateTotalSupply() public view returns (uint256);
     function delegateBalanceOf(address who) public view returns (uint256);

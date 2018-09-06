@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import "../registry/contracts/HasRegistry.sol";
+import "./HasRegistry.sol";
 import "./modularERC20/ModularPausableToken.sol";
 
 contract CompliantToken is ModularPausableToken, HasRegistry {

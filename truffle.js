@@ -1,20 +1,24 @@
-require('babel-register');
-require('babel-polyfill');
+var HDWalletProvider = require('truffle-hdwallet-provider')
 
-var HDWalletProvider = require("truffle-hdwallet-provider");
+var mnemonic = 'dove apology alert strike achieve human enhance common raven tone kite voice'
+var publicNode = 'http://localhost:9566'
 
 module.exports = {
   solc: {
-    optimize: false,
-    runs: 2000000000
+    optimizer: {
+      enabled: true,
+      runs: 2000000000
+    }
   },
   networks: {
-    development: {
-      host: "46.105.121.205",
-      port: 18545,
-      gas: 10000000,
-      gasPrice: 50000000000, // Specified in Wei
-      network_id: "*" // Match any network id
+    ropsten: {
+      provider: () =>
+        new HDWalletProvider(mnemonic, publicNode),
+      host: "localhost",
+      port: 9566,
+      network_id: "3",
+      gas: 7990000,
+      gasPrice: 22000000000 // Specified in Wei
     }
   }
-};
+}

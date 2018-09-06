@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
 
 import "./ModularMintableToken.sol";
-import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
+import "../../node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
 
 /**
  * @title Pausable token

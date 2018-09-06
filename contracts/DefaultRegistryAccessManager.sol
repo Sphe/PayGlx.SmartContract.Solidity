@@ -2,7 +2,7 @@ pragma solidity ^0.4.23;
 
 import "./Registry.sol";
 import "./RegistryAccessManager.sol";
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract DefaultRegistryAccessManager is RegistryAccessManager {
     using SafeMath for uint256;

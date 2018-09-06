@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
 
 import "./ModularBasicToken.sol";
-import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "../../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "./AllowanceSheet.sol";
 
 /**

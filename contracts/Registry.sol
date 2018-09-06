@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import "openzeppelin-solidity/contracts/ownership/Claimable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/ownership/Claimable.sol";
 import "./DefaultRegistryAccessManager.sol";
 import "./RegistryAccessManager.sol";
 

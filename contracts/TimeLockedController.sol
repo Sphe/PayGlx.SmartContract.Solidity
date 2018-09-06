@@ -1,9 +1,9 @@
 pragma solidity ^0.4.23;
 
-import "openzeppelin-solidity/contracts/ownership/HasNoEther.sol";
-import "openzeppelin-solidity/contracts/ownership/HasNoTokens.sol";
-import "openzeppelin-solidity/contracts/ownership/Claimable.sol";
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "../node_modules/openzeppelin-solidity/contracts/ownership/HasNoEther.sol";
+import "../node_modules/openzeppelin-solidity/contracts/ownership/HasNoTokens.sol";
+import "../node_modules/openzeppelin-solidity/contracts/ownership/Claimable.sol";
+import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "./GlobCoin.sol";
 
 // This contract allows us to split ownership of the GlobCoin contract (and GlobCoin's Registry)
@@ -30,7 +30,7 @@ contract TimeLockedController is HasNoEther, HasNoTokens, Claimable {
         uint256 releaseTimestamp;
     }
 
-    uint256 public mintDelay = 1 days;
+    uint256 public mintDelay = 10 minutes;
     address public admin;
     GlobCoin public globCoin;
     MintOperation[] public mintOperations;
@@ -92,21 +92,21 @@ contract TimeLockedController is HasNoEther, HasNoTokens, Claimable {
     // in order to transfer it to an upgraded GlobCoin contract.
     function requestReclaimContract(Ownable _other) public onlyOwner {
         emit RequestReclaimContract(_other);
-        globCoin.reclaimContract(_other);
+        //globCoin.reclaimContract(_other);
     }
 
     function requestReclaimEther() public onlyOwner {
-        globCoin.reclaimEther(owner);
+        //globCoin.reclaimEther(owner);
     }
 
     function requestReclaimToken(ERC20Basic _token) public onlyOwner {
-        globCoin.reclaimToken(_token, owner);
+        //globCoin.reclaimToken(_token, owner);
     }
 
     // Change the minimum and maximum amounts that GlobCoin users can
     // burn to newMin and newMax
     function setBurnBounds(uint256 _min, uint256 _max) public onlyAdminOrOwner {
-        globCoin.setBurnBounds(_min, _max);
+        //globCoin.setBurnBounds(_min, _max);
     }
 
     // Change the transaction fees charged on transfer/mint/burn
@@ -130,7 +130,7 @@ contract TimeLockedController is HasNoEther, HasNoTokens, Claimable {
 
     // Change the recipient of staking fees to newStaker
     function changeStaker(address _newStaker) public onlyOwner {
-        globCoin.changeStaker(_newStaker);
+        //globCoin.changeStaker(_newStaker);
     }
 
     // Future BurnableToken calls to globCoin will be delegated to _delegate
