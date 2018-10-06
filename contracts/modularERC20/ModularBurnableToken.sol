@@ -20,13 +20,13 @@ contract ModularBurnableToken is ModularStandardToken {
     }
 
     function burnAllArgs(address _burner, uint256 _value, string _note) internal {
-        require(_value <= balances.balanceOf(_burner),"not enough balance to burn");
+        require(_value <= balances.balanceOf(_burner), "not enough balance to burn");
         // no need to require value <= totalSupply, since that would imply the
         // sender's balance is greater than the totalSupply, which *should* be an assertion failure
         /* uint burnAmount = _value / (10 **16) * (10 **16); */
         balances.subBalance(_burner, _value);
         totalSupply_ = totalSupply_.sub(_value);
         emit Burn(_burner, _value, _note);
-        emit Transfer(_burner, address(0), _value);
+        ERC20events(eventDelegateor).emitTransferEvent(_burner, address(0), _value);
     }
 }

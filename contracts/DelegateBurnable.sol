@@ -19,7 +19,7 @@ pragma solidity ^0.4.23;
 // cannot be changed
 
 contract DelegateBurnable {
-    function delegateTotalSupply() public view returns (uint256);
+function delegateTotalSupply() public view returns (uint256);
     function delegateBalanceOf(address who) public view returns (uint256);
     function delegateTransfer(address to, uint256 value, address origSender) public returns (bool);
     function delegateAllowance(address owner, address spender) public view returns (uint256);

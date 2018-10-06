@@ -1,6 +1,8 @@
 pragma solidity ^0.4.24;
 
 import "./modularERC20/ModularPausableToken.sol";
+import "../node_modules/openzeppelin-solidity/contracts/ownership/NoOwner.sol";
+import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "./CanDelegate.sol";
 import "./BurnableTokenWithBounds.sol";
 import "./CompliantToken.sol";
@@ -10,46 +12,73 @@ import "./WithdrawalToken.sol";
 
 // This is the top-level ERC20 contract, but most of the interesting functionality is
 // inherited - see the documentation on the corresponding contracts.
-contract GlobCoin is ModularPausableToken, BurnableTokenWithBounds, CompliantToken, TokenWithFees, WithdrawalToken, StandardDelegate, CanDelegate {
+contract GlobCoin is 
+    ModularPausableToken, 
+    NoOwner, 
+    BurnableTokenWithBounds, 
+    CompliantToken, 
+    TokenWithFees, 
+    WithdrawalToken, 
+    StandardDelegate, 
+    CanDelegate {
+
+    using SafeMath for *;
 
     string public name = "GlobCoin";
     string public symbol = "GLX";
-    uint8 public constant decimals = 6;
-    uint8 public constant rounding = 2;
+    uint8 public constant DECIMALS = 6;
+    uint8 public constant ROUNDING = 2;
 
     event ChangeTokenName(string newName, string newSymbol);
 
     constructor() public {
         totalSupply_ = 0;
-        burnMin = 10000 * 10**uint256(decimals);
-        burnMax = 20000000 * 10**uint256(decimals);
+        burnMin = 10000 * 10**uint256(DECIMALS);
+        burnMax = 20000000 * 10**uint256(DECIMALS);
     }
 
-    function changeTokenName(string _name, string _symbol) public {
+    bool public totalSupplySet;
+
+    /** 
+    *@dev set the totalSupply of the contract for delegation purposes
+    Can only be set once.
+    */
+    function setTotalSupply(uint _totalSupply) external onlyOwner {
+        require(!totalSupplySet, "total supply already set");
+        totalSupply_ = _totalSupply;
+        totalSupplySet = true;
+    }
+
+    function changeTokenName(string _name, string _symbol) external onlyOwner {
         name = _name;
         symbol = _symbol;
         emit ChangeTokenName(_name, _symbol);
     }
 
-    function mint(address _to, uint256 _value) public returns (bool) {
+    modifier onlyWhenNoDelegate() {
+        require(address(delegate) == address(0), "a delegate contract exist");
+        _;
+    }
+
+    function mint(address _to, uint256 _value) public onlyWhenNoDelegate returns (bool) {
         super.mint(_to, _value);
     }
-    function setBalanceSheet(address _sheet) public returns (bool) {
+    function setBalanceSheet(address _sheet) public onlyWhenNoDelegate returns (bool) {
         return super.setBalanceSheet(_sheet);
     }
-    function setAllowanceSheet(address _sheet) public returns (bool) {
+    function setAllowanceSheet(address _sheet) public onlyWhenNoDelegate returns (bool) {
         return super.setAllowanceSheet(_sheet);
     }
-    function setBurnBounds(uint256 _min, uint256 _max) public {
+    function setBurnBounds(uint256 _min, uint256 _max) public onlyWhenNoDelegate {
         super.setBurnBounds(_min, _max);
     }
-    function setRegistry(Registry _registry) public {
+    function setRegistry(Registry _registry) public onlyWhenNoDelegate {
         super.setRegistry(_registry);
     }
-    function changeStaker(address _newStaker) public {
+    function changeStaker(address _newStaker) public onlyWhenNoDelegate {
         super.changeStaker(_newStaker);
     }
-    function wipeBlacklistedAccount(address _account) public {
+    function wipeBlacklistedAccount(address _account) public onlyWhenNoDelegate {
         super.wipeBlacklistedAccount(_account);
     }
 
@@ -75,10 +104,10 @@ contract GlobCoin is ModularPausableToken, BurnableTokenWithBounds, CompliantTok
         );
     }
 
-    function burnAllArgs(address _burner, uint256 _value ,string _note) internal {
-      //round down burn amount to cent
-      uint burnAmount = _value / (10 **uint256(decimals-rounding)) * (10 **uint256(decimals-rounding));
-      super.burnAllArgs(_burner, burnAmount, _note);
+    function burnAllArgs(address _burner, uint256 _value, string _note) internal {
+        //round down burn amount to cent
+        uint burnAmount = _value.div(10 ** uint256(DECIMALS - ROUNDING)).mul(10 ** uint256(DECIMALS - ROUNDING));
+        super.burnAllArgs(_burner, burnAmount, _note);
     }
 
 
@@ -86,13 +115,13 @@ contract GlobCoin is ModularPausableToken, BurnableTokenWithBounds, CompliantTok
     // can't own ether or tokens.
     // Note that we *do* inherit reclaimContract from NoOwner: This contract
     // does have to own contracts, but it also has to be able to relinquish them.
-    function reclaimEther(address _to) external {
+    function reclaimEther(address _to) external onlyOwner {
         _to.transfer(address(this).balance);
     }
 
-    function reclaimToken(ERC20Basic token, address _to) external {
+    function reclaimToken(ERC20Basic token, address _to) external onlyOwner {
         uint256 balance = token.balanceOf(this);
-        //token.safeTransfer(_to, balance);
+        token.transfer(_to, balance);
     }
 
 }
