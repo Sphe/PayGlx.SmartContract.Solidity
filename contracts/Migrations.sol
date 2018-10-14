@@ -1,21 +1,23 @@
 pragma solidity ^0.4.23;
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+contract Migrations {
+  address public owner;
+  uint public last_completed_migration;
 
-// This is a truffle contract, needed for truffle integration.
-contract Migrations is Ownable {
-    uint256 public lastCompletedMigration;
+  modifier restricted() {
+    if (msg.sender == owner) _;
+  }
 
-    constructor() public {
-        owner = msg.sender;
-    }
+  constructor() public {
+    owner = msg.sender;
+  }
 
-    function setCompleted(uint _completed) public onlyOwner {
-        lastCompletedMigration = _completed;
-    }
+  function setCompleted(uint completed) public restricted {
+    last_completed_migration = completed;
+  }
 
-    function upgrade(address _newAddress) public onlyOwner {
-        Migrations upgraded = Migrations(_newAddress);
-        upgraded.setCompleted(lastCompletedMigration);
-    }
+  function upgrade(address new_address) public restricted {
+    Migrations upgraded = Migrations(new_address);
+    upgraded.setCompleted(last_completed_migration);
+  }
 }
