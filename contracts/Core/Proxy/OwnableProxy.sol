@@ -1,6 +1,6 @@
 pragma solidity ^0.4.25;
 
-import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+import "../../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./BaseProxy.sol";
 
 contract OwnableProxy is BaseProxy, Ownable {
