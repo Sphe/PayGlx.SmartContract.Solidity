@@ -26,23 +26,18 @@ contract WhitelistableTokenDelegate is BurnableTokenDelegate {
         return super.transfer(to, value);
     }
 
-    function getIfWhitelisted(address who) public returns (bool) {
-
+    function getIfWhitelisted(address who) public view returns (bool) {
         return WhitelistingTokenLib.getIfWhitelisted(_storage, who);
     }
 
     function whitelist(address who) public onlyOwner returns (bool) {
-
         WhitelistingTokenLib.setWhitelisted(_storage, who, true);
-
         emit Whitelisted(who);
         return true;
     }
 
     function unWhitelist(address who) public onlyOwner returns (bool) {
-
         WhitelistingTokenLib.setWhitelisted(_storage, who, false);
-
         emit UnWhitelisted(who);
         return true;
     }
