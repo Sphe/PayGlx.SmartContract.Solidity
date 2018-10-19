@@ -17,12 +17,29 @@ module.exports = {
       network_id: 1234 // Match any network id
     },
 
-
-    ropsten: getRopstenConfig()
+    ropsten: getRinkebyConfig()
   }
 }
 
 var mne1 = 'dove apology alert strike achieve human enhance common raven tone kite voice';
+
+function getRinkebyConfig () {
+  var HDWalletProvider = require('truffle-hdwallet-provider')
+  var secrets = {}
+  try {
+    secrets = require('./secrets.json')
+  } catch (err) {
+    console.log('could not find ./secrets.json')
+  }
+   var rinkebyProvider = () => {
+    const provider = new HDWalletProvider(mne1, 'ropsten.infura.io/v3/4d580aedabbe4e79979bbbd7c51ebb83')
+    return provider
+  }
+   return {
+    network_id: 4,
+    provider: rinkebyProvider
+  }
+}
 
 function getRopstenConfig () {
   var HDWalletProvider = require('truffle-hdwallet-provider')
