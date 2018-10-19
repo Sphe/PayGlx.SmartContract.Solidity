@@ -1,7 +1,6 @@
 pragma solidity ^0.4.25;
 
 import "../Libraries/BasicTokenLib.sol";
-import "../Libraries/MintableTokenLib.sol";
 import "./OwnableDelegate.sol";
 
 
