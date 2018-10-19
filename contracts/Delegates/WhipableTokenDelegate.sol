@@ -2,13 +2,12 @@ pragma solidity ^0.4.24;
 
 import "../Libraries/BasicTokenLib.sol";
 import "./WhitelistableTokenDelegate.sol";
-import "./OwnableDelegate.sol";
 
 
 /**
  * @title Burnable token
  */
-contract WhipableTokenDelegate is WhitelistableTokenDelegate, OwnableDelegate {
+contract WhipableTokenDelegate is WhitelistableTokenDelegate {
 
     event Whiped(address indexed from);
 

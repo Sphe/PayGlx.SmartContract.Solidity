@@ -1,14 +1,13 @@
 pragma solidity ^0.4.24;
 
 import "../Libraries/BasicTokenLib.sol";
-import "./OwnableDelegate.sol";
 import "./MintableTokenDelegate.sol";
 
 
 /**
  * @title Burnable token
  */
-contract BurnableTokenDelegate is MintableTokenDelegate, OwnableDelegate {
+contract BurnableTokenDelegate is MintableTokenDelegate {
 
     event Burn(address indexed to, uint256 amount);
 

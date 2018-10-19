@@ -4,12 +4,11 @@ import "../../node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.so
 
 import "../Libraries/BasicTokenLib.sol";
 import "./WhipableTokenDelegate.sol";
-import "./OwnableDelegate.sol";
 
 /**
  * @title Burnable token
  */
-contract PausableTokenDelegate is WhipableTokenDelegate, OwnableDelegate, Pausable {
+contract PausableTokenDelegate is WhipableTokenDelegate, Pausable {
 
     function transfer(
         address _to,

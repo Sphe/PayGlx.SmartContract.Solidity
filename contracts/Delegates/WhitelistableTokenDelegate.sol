@@ -2,14 +2,13 @@ pragma solidity ^0.4.24;
 
 import "../Libraries/BasicTokenLib.sol";
 import "../Libraries/WhitelistingTokenLib.sol";
-import "./OwnableDelegate.sol";
 import "./BurnableTokenDelegate.sol";
 
 
 /**
  * @title Burnable token
  */
-contract WhitelistableTokenDelegate is BurnableTokenDelegate, OwnableDelegate {
+contract WhitelistableTokenDelegate is BurnableTokenDelegate {
 
     event Whitelisted(address indexed to);
     event UnWhitelisted(address indexed to);
