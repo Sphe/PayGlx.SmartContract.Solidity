@@ -3,7 +3,7 @@ pragma solidity ^0.4.25;
 import "zeppelin-solidity/contracts/lifecycle/Pausable.sol";
 
 import "../Libraries/BasicTokenLib.sol";
-import "../Libraries/WhipableTokenDelegate.sol";
+import "./WhipableTokenDelegate.sol";
 import "./OwnableDelegate.sol";
 
 /**
