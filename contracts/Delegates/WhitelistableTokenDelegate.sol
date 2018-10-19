@@ -14,7 +14,7 @@ contract WhitelistableTokenDelegate is BurnableTokenDelegate {
     event UnWhitelisted(address indexed to);
 
     modifier isWhitelisted(address who) {
-        require(WhitelistingTokenLib.getIfWhitelisted(_storage, _who), "needs to be whitelisted");
+        require(WhitelistingTokenLib.getIfWhitelisted(_storage, who), "needs to be whitelisted");
         _;
     }
 
@@ -28,22 +28,22 @@ contract WhitelistableTokenDelegate is BurnableTokenDelegate {
 
     function getIfWhitelisted(address who) public returns (bool) {
 
-        return WhitelistingTokenLib.getIfWhitelisted(_storage, _who);
+        return WhitelistingTokenLib.getIfWhitelisted(_storage, who);
     }
 
     function whitelist(address who) public onlyOwner returns (bool) {
 
-        WhitelistingTokenLib.setWhitelisted(_storage, _who, true);
+        WhitelistingTokenLib.setWhitelisted(_storage, who, true);
 
-        emit Whitelisted(_who);
+        emit Whitelisted(who);
         return true;
     }
 
     function unWhitelist(address who) public onlyOwner returns (bool) {
 
-        WhitelistingTokenLib.setWhitelisted(_storage, _who, false);
+        WhitelistingTokenLib.setWhitelisted(_storage, who, false);
 
-        emit UnWhitelisted(_who);
+        emit UnWhitelisted(who);
         return true;
     }
 
