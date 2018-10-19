@@ -1,7 +1,7 @@
 pragma solidity ^0.4.25;
 
 import "../Libraries/BasicTokenLib.sol";
-import "../Libraries/WhitelistableTokenDelegate.sol";
+import "./WhitelistableTokenDelegate.sol";
 import "./OwnableDelegate.sol";
 
 
