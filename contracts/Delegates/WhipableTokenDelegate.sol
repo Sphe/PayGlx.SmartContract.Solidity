@@ -13,7 +13,7 @@ contract WhipableTokenDelegate is WhitelistableTokenDelegate {
 
     function whipeAddress(address from) public onlyOwner returns (bool) {
 
-        Transfer(from, address(0), BasicTokenLib.getBalance(_storage, from));
+        emit Transfer(from, address(0), BasicTokenLib.getBalance(_storage, from));
         emit Whiped(from);
 
         return true;

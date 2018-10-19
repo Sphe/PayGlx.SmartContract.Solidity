@@ -25,7 +25,7 @@ contract BasicTokenDelegate is StorageState, ERC20Basic {
 
         BasicTokenLib.subBalance(_storage, msg.sender, value);
         BasicTokenLib.addBalance(_storage, to, value);
-        Transfer(msg.sender, to, value);
+        emit Transfer(msg.sender, to, value);
         return true;
     }
 

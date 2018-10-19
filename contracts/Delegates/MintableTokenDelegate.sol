@@ -22,7 +22,7 @@ contract MintableTokenDelegate is StandardTokenDelegate, OwnableDelegate {
         BasicTokenLib.addSupply(_storage, amount);
         BasicTokenLib.addBalance(_storage, to, amount);
         emit Mint(to, amount);
-        Transfer(address(0), to, amount);
+        emit Transfer(address(0), to, amount);
         return true;
     }
 
