@@ -1,4 +1,4 @@
-pragma solidity ^0.4.25;
+pragma solidity ^0.4.24;
 
 import "../Libraries/OwnableLib.sol";
 import "../Core/Storage/KeyValueStorage.sol";
