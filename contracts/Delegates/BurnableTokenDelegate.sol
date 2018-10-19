@@ -13,7 +13,6 @@ contract BurnableTokenDelegate is MintableTokenDelegate {
 
   /**
    * @dev Function to burn tokens
-   * @param to The address that will receive the burned tokens.
    * @param amount The amount of tokens to burn.
    * @return A boolean that indicates if the operation was successful.
    */
