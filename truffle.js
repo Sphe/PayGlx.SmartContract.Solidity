@@ -1,23 +1,41 @@
-// Allows us to use ES6 in our migrations and tests.
-require('@babel/register')
-require('@babel/polyfill')
-
-var HDWalletProvider = require('truffle-hdwallet-provider')
-
-var mnemonic = 'dove apology alert strike achieve human enhance common raven tone kite voice'
+require('babel-register')
+require('babel-polyfill')
 
 module.exports = {
   networks: {
-    ropsten: {
-      provider: new HDWalletProvider(mnemonic, 'http://46.105.121.205:9566'),
-      network_id: 3,
-      gas: 4612388,
-      gasPrice: 100000000000
-    },
     development: {
-      host: '127.0.0.1',
-      port: 8545,
-      network_id: 1234 // Match any network id
-    }
+      host: 'localhost',
+      port: 8546,
+      network_id: '*', // Match any network id
+      gas: 4600000
+    },
+    coverage: {
+      host: 'localhost',
+      network_id: '*',
+      port: 8546,
+      gas: 0xfffffffffff,
+      gasPrice: 0x01
+    },
+    rinkeby: getRinkebyConfig()
+  }
+}
+
+function getRinkebyConfig () {
+  var HDWalletProvider = require('truffle-hdwallet-provider')
+  var secrets = {}
+  try {
+    secrets = require('./secrets.json')
+  } catch (err) {
+    console.log('could not find ./secrets.json')
+  }
+
+  var rinkebyProvider = () => {
+    const provider = new HDWalletProvider(secrets.mnemonic, 'https://rinkeby.infura.io/' + secrets.infura_apikey)
+    return provider
+  }
+
+  return {
+    network_id: 4,
+    provider: rinkebyProvider
   }
 }

@@ -1,6 +1,4 @@
 module.exports = {
-    testCommand: 'node --max-old-space-size=4096 ../node_modules/.bin/truffle test --network coverage',
-    compileCommand: 'node --max-old-space-size=4096 ../node_modules/.bin/truffle compile --network coverage',
-    skipFiles: ['Migrations.sol', 'mocks'],
-    copyPackages: ['openzeppelin-solidity'],
+  port: 8546,
+  copyPackages: ['zeppelin-solidity']
 }
