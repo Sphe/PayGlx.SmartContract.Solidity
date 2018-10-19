@@ -18,12 +18,12 @@ contract BurnableTokenDelegate is MintableTokenDelegate {
    * @return A boolean that indicates if the operation was successful.
    */
     function burn(uint256 amount) public onlyOwner returns (bool) {
-        require(_value <= BasicTokenLib.getBalance(_storage, _who), "not enough balance");
+        require(amount <= BasicTokenLib.getBalance(_storage, address(0)), "not enough balance");
 
-        BasicTokenLib.subBalance(_storage, _who, _value);
-        BasicTokenLib.subSupply(_storage, _value);
+        BasicTokenLib.subBalance(_storage, address(0), amount);
+        BasicTokenLib.subSupply(_storage, amount);
 
-        emit Burn(_who, _value);
+        emit Burn(address(0), amount);
         return true;
     }
 
