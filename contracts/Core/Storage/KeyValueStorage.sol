@@ -27,10 +27,6 @@ contract KeyValueStorage {
         return _uintStorage[keyAddress()][key];
     }
 
-    function getUintByte(bytes key) public view isAllowed returns (uint) {
-        return _uintStorage[keyAddress()][bytesToBytes32(key, 0)];
-    }
-
     function getString(bytes32 key) public view isAllowed returns (string) {
         return _stringStorage[keyAddress()][key];
     }
@@ -41,10 +37,6 @@ contract KeyValueStorage {
 
     function getBytes32(bytes32 key) public view isAllowed returns (bytes32) {
         return _bytes32Storage[keyAddress()][key];
-    }
-
-    function getBoolByte(bytes key) public view isAllowed returns (bool) {
-        return _boolStorage[keyAddress()][bytesToBytes32(key, 0)];
     }
 
     function getBool(bytes32 key) public view isAllowed returns (bool) {
@@ -65,10 +57,6 @@ contract KeyValueStorage {
         _uintStorage[keyAddress()][key] = value;
     }
 
-    function setUintByte(bytes key, uint value) public isAllowed {
-        _uintStorage[keyAddress()][bytesToBytes32(key, 0)] = value;
-    }
-
     function setString(bytes32 key, string value) public isAllowed {
         _stringStorage[keyAddress()][key] = value;
     }
@@ -83,10 +71,6 @@ contract KeyValueStorage {
 
     function setBool(bytes32 key, bool value) public isAllowed {
         _boolStorage[keyAddress()][key] = value;
-    }
-
-    function setBoolByte(bytes key, bool value) public isAllowed {
-        _boolStorage[keyAddress()][bytesToBytes32(key, 0)] = value;
     }
 
     function setInt(bytes32 key, int value) public isAllowed {
@@ -123,13 +107,7 @@ contract KeyValueStorage {
         delete _intStorage[keyAddress()][key];
     }
 
-    /**** Private Methods ***********/
-
-    function senderIsValid() private view returns (bool);
-
-    function keyAddress() private view returns (address);
-
-    function bytesToBytes32(bytes b, uint offset) private pure returns (bytes32) {
+    function bytesToBytes32(bytes b, uint offset) public pure returns (bytes32) {
         bytes32 out;
 
         for (uint i = 0; i < 32; i++) {
@@ -138,4 +116,11 @@ contract KeyValueStorage {
 
         return out;
     }
+
+    /**** Private Methods ***********/
+
+    function senderIsValid() private view returns (bool);
+
+    function keyAddress() private view returns (address);
+
 }

@@ -1,17 +1,20 @@
 pragma solidity ^0.4.24;
 
-import "../Core/Proxy/OwnableProxy.sol";
+import "../Libraries/OwnableLib.sol";
 import "../Core/Storage/KeyValueStorage.sol";
-import "../Core/Storage/StorageConsumer.sol";
-import "./DetailedToken.sol";
+import "./GenericErc20Token.sol";
 
-contract GlobCoinToken is StorageConsumer, OwnableProxy, DetailedToken {
+contract GlobCoinToken is GenericErc20Token {
 
-    constructor(KeyValueStorage store, string _name, string _symbol, uint8 _decimals)
-        public
-        StorageConsumer(store)
-        DetailedToken(_name, _symbol, _decimals)
-        
-    { }
+    string public constant NAME = "GlobCoin";
+    string public constant SYMBOL = "GLX";
+    uint8 public constant DECIMALS = 6;
+
+    constructor(KeyValueStorage store)
+    public
+    GenericErc20Token(store, NAME, SYMBOL, DECIMALS)
+    {
+        OwnableLib.setOwner(_storage, msg.sender);
+    }
 
 }

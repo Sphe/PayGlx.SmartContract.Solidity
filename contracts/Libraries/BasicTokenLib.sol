@@ -7,7 +7,7 @@ library BasicTokenLib {
     using SafeMath for uint256;
 
     function getBalance(StorageLib.Storage storage self, address balanceHolder) public view returns (uint256) {
-        return self.store.getUintByte(abi.encodePacked("balances", balanceHolder));
+        return self.store.getUint(self.store.bytesToBytes32(abi.encodePacked("balances", balanceHolder), 0));
     }
 
     function totalSupply(StorageLib.Storage storage self) public view returns (uint256) {
@@ -31,7 +31,7 @@ library BasicTokenLib {
     }
 
     function setBalance(StorageLib.Storage storage self, address balanceHolder, uint256 amount) private {
-        self.store.setUintByte(abi.encodePacked("balances", balanceHolder), amount);
+        self.store.setUint(self.store.bytesToBytes32(abi.encodePacked("balances", balanceHolder), 0), amount);
     }
 
 }

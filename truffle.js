@@ -19,11 +19,24 @@ module.exports = {
       port: 8545,
       network_id: 1234 // Match any network id
     },
+ 
     ropsten: {
+
       provider: new HDWalletProvider(mne1, 'https://ropsten.infura.io/4d580aedabbe4e79979bbbd7c51ebb83'),
       network_id: "3",
       gas: 7990000,
-      gasPrice: 22000000000 // Specified in Wei
+      gasPrice: 2000000000
+
+    },
+    rinkeby: {
+
+      provider: new HDWalletProvider(mne1, 'https://rinkeby.infura.io/v3/4d580aedabbe4e79979bbbd7c51ebb83'),
+      network_id: "4",
+      gas: 7990000,
+      gasPrice: 22000000000
+
     }
+
+
   }
 }

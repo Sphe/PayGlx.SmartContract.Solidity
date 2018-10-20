@@ -4,11 +4,8 @@ const StandardTokenLib = artifacts.require('StandardTokenLib')
 const WhitelistingTokenLib = artifacts.require('WhitelistingTokenLib')
 const OwnableLib = artifacts.require('OwnableLib')
 
-
-
 const PausableTokenDelegate = artifacts.require('PausableTokenDelegate')
 const GlobCoinToken = artifacts.require('GlobCoinToken')
-const GlobCoinOwnableToken = artifacts.require('GlobCoinOwnableToken')
 
 module.exports = function(deployer) {
 
@@ -18,28 +15,21 @@ module.exports = function(deployer) {
   var whitelistingTokenLib = deployer.deploy(WhitelistingTokenLib);
   var ownableLib = deployer.deploy(OwnableLib);
 
+  PausableTokenDelegate.link('OwnableLib', ownableLib.address);
   PausableTokenDelegate.link('BasicTokenLib', basicTokenLib.address);
   PausableTokenDelegate.link('StandardTokenLib', standardTokenLib.address);
   PausableTokenDelegate.link('WhitelistingTokenLib', whitelistingTokenLib.address);
 
-  deployer.deploy(PausableTokenDelegate);
+  var pausableTokenDelegate = deployer.deploy(PausableTokenDelegate);
 
   GlobCoinToken.link('OwnableLib', ownableLib.address);
   GlobCoinToken.link('BasicTokenLib', basicTokenLib.address);
   GlobCoinToken.link('StandardTokenLib', standardTokenLib.address);
   GlobCoinToken.link('WhitelistingTokenLib', whitelistingTokenLib.address);
 
-  deployer.deploy(GlobCoinToken);
+  var glx = deployer.deploy(GlobCoinToken, publicStorage);
 
-  GlobCoinOwnableToken.link('OwnableLib', ownableLib.address);
-  GlobCoinOwnableToken.link('BasicTokenLib', basicTokenLib.address);
-  GlobCoinOwnableToken.link('StandardTokenLib', standardTokenLib.address);
-  GlobCoinOwnableToken.link('WhitelistingTokenLib', whitelistingTokenLib.address);
-
-  deployer.deploy(GlobCoinOwnableToken);
-
-
-  
+  glx.upgradeTo(pausableTokenDelegate.address);
 
 };
 

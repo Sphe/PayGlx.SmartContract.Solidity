@@ -6,11 +6,11 @@ import "../Core/Storage/StorageLib.sol";
 library WhitelistingTokenLib {
 
     function getIfWhitelisted(StorageLib.Storage storage self, address who) public view returns (bool) {
-        return self.store.getBoolByte(abi.encodePacked("whitelisted", who));
+        return self.store.getBool(self.store.bytesToBytes32(abi.encodePacked("whitelisted", who), 0);
     }
 
     function setWhitelisted(StorageLib.Storage storage self, address who, bool isWhitelisted) public {
-        self.store.setBoolByte(abi.encodePacked("whitelisted", who), isWhitelisted);
+        self.store.setBool(self.store.bytesToBytes32(abi.encodePacked("whitelisted", who), 0), isWhitelisted);
     }
 
 }
