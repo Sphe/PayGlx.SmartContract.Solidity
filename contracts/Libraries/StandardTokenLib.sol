@@ -13,7 +13,7 @@ library StandardTokenLib {
     )
       public view returns (uint256)
     {
-        return self.store.getUint(self.store.bytesToBytes32(abi.encodePacked("allowed", owner, spender), 0));
+        return self.store.getUint(keccak256(abi.encodePacked(sha256(abi.encodePacked("allowed", owner, spender)))));
     }
 
     function addAllowed(
@@ -46,7 +46,7 @@ library StandardTokenLib {
     )
       public 
     {
-        self.store.setUint(self.store.bytesToBytes32(abi.encodePacked("allowed", owner, spender), 0), amount);
+        self.store.setUint(keccak256(abi.encodePacked(sha256(abi.encodePacked("allowed", owner, spender)))), amount);
     }
 
 }

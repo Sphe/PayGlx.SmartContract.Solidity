@@ -15,6 +15,8 @@ module.exports = function(deployer) {
   var whitelistingTokenLib = deployer.deploy(WhitelistingTokenLib);
   var ownableLib = deployer.deploy(OwnableLib);
 
+
+  /*
   PausableTokenDelegate.link('OwnableLib', ownableLib.address);
   PausableTokenDelegate.link('BasicTokenLib', basicTokenLib.address);
   PausableTokenDelegate.link('StandardTokenLib', standardTokenLib.address);
@@ -28,8 +30,6 @@ module.exports = function(deployer) {
   GlobCoinToken.link('WhitelistingTokenLib', whitelistingTokenLib.address);
 
   var glx = deployer.deploy(GlobCoinToken, publicStorage);
-
-  glx.upgradeTo(pausableTokenDelegate.address);
+  */
 
 };
-
