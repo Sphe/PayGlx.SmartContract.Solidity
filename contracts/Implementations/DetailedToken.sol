@@ -2,13 +2,13 @@ pragma solidity ^0.4.24;
 
 contract DetailedToken {
 
-    string public _name;
-    string public _symbol;
-    uint8 public _decimals;
+    string public name;
+    string public symbol;
+    uint8 public decimals;
 
-    constructor(string name, string symbol, uint8 decimals) public {
-        _name = name;
-        _symbol = symbol;
-        _decimals = decimals;
+    constructor(string nameParam, string symbolParam, uint8 decimalsParam) public {
+        name = nameParam;
+        symbol = symbolParam;
+        decimals = decimalsParam;
     }
 }
