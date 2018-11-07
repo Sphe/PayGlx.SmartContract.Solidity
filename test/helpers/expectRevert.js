@@ -1,16 +1,20 @@
-import { expect } from 'chai'
-import asyncReturnErr from './asyncReturnErr'
+export default async (promise) => {
+    try {
+        await promise;
+    } catch (error) {
+        // TODO: Check jump destination to destinguish between a throw and an actual invalid jump.
+        const invalidOpcode = error.message.search('invalid opcode') > -1;
+        const revert = error.message.search('revert') >= 0;
 
-export default async (asyncFn) => {
-  const err = await asyncReturnErr(asyncFn)
-  expect(
-    typeof err !== 'undefined',
-    'expected function to revert, but it succeeded'
-  ).to.equal(true)
-  if (typeof err !== 'undefined') {
-    expect(
-      err.message.search('revert') > -1,
-      `expected error message "${err.message}" to contain "revert"`
-    ).to.equal(true)
-  }
-}
+        // TODO: When we contract A calls contract B, and B throws, instead of an 'invalid jump', we get an 'out of gas'
+        // error. How do we distinguish this from an actual out of gas event? The testrpc log actually show an "invalid
+        // jump" event).
+        const outOfGas = error.message.search('out of gas') > -1;
+
+        assert(invalidOpcode || outOfGas || revert, `Expected throw, got ${error} instead`);
+
+        return;
+    }
+
+    assert(false, "Expected throw wasn't received");
+};

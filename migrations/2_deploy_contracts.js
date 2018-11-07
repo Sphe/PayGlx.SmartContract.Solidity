@@ -9,27 +9,30 @@ const GlobCoinToken = artifacts.require('GlobCoinToken')
 
 module.exports = function(deployer) {
 
-  var publicStorage = deployer.deploy(PublicStorage);
-  var basicTokenLib = deployer.deploy(BasicTokenLib);
-  var standardTokenLib = deployer.deploy(StandardTokenLib);
-  var whitelistingTokenLib = deployer.deploy(WhitelistingTokenLib);
-  var ownableLib = deployer.deploy(OwnableLib);
+  deployer.then(async () => {
+    await deployer.deploy(PublicStorage)
+    await deployer.deploy(BasicTokenLib)
+    await deployer.deploy(StandardTokenLib)
+    await deployer.deploy(WhitelistingTokenLib)
+    await deployer.deploy(OwnableLib)
 
+    PausableTokenDelegate.link('OwnableLib', OwnableLib.address);
+    PausableTokenDelegate.link('BasicTokenLib', BasicTokenLib.address);
+    PausableTokenDelegate.link('StandardTokenLib', StandardTokenLib.address);
+    PausableTokenDelegate.link('WhitelistingTokenLib', WhitelistingTokenLib.address);
 
-  /*
-  PausableTokenDelegate.link('OwnableLib', ownableLib.address);
-  PausableTokenDelegate.link('BasicTokenLib', basicTokenLib.address);
-  PausableTokenDelegate.link('StandardTokenLib', standardTokenLib.address);
-  PausableTokenDelegate.link('WhitelistingTokenLib', whitelistingTokenLib.address);
+    await deployer.deploy(PausableTokenDelegate)
 
-  var pausableTokenDelegate = deployer.deploy(PausableTokenDelegate);
+    GlobCoinToken.link('OwnableLib', OwnableLib.address);
+    GlobCoinToken.link('BasicTokenLib', BasicTokenLib.address);
+    GlobCoinToken.link('StandardTokenLib', StandardTokenLib.address);
+    GlobCoinToken.link('WhitelistingTokenLib', WhitelistingTokenLib.address);
 
-  GlobCoinToken.link('OwnableLib', ownableLib.address);
-  GlobCoinToken.link('BasicTokenLib', basicTokenLib.address);
-  GlobCoinToken.link('StandardTokenLib', standardTokenLib.address);
-  GlobCoinToken.link('WhitelistingTokenLib', whitelistingTokenLib.address);
+    await deployer.deploy(GlobCoinToken, PublicStorage.address)
 
-  var glx = deployer.deploy(GlobCoinToken, publicStorage);
-  */
+    let pausableTokenDelegate = await PausableTokenDelegate.deployed()
+    let glx = await GlobCoinToken.deployed()
+
+  })
 
 };
