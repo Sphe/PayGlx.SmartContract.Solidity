@@ -1,4 +1,4 @@
-const PublicStorage = artifacts.require('PublicStorage')
+const KeyValueStorage = artifacts.require('KeyValueStorage')
 const BasicTokenLib = artifacts.require('BasicTokenLib')
 const StandardTokenLib = artifacts.require('StandardTokenLib')
 const WhitelistingTokenLib = artifacts.require('WhitelistingTokenLib')
@@ -10,7 +10,7 @@ const GlobCoinToken = artifacts.require('GlobCoinToken')
 module.exports = function(deployer) {
 
   deployer.then(async () => {
-    await deployer.deploy(PublicStorage)
+    await deployer.deploy(KeyValueStorage)
     await deployer.deploy(BasicTokenLib)
     await deployer.deploy(StandardTokenLib)
     await deployer.deploy(WhitelistingTokenLib)
