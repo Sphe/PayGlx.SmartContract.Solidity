@@ -6,7 +6,7 @@ import expectRevert from './helpers/expectRevert';
 
 const accounts = web3.eth.accounts
 
-const PublicStorage = artifacts.require('PublicStorage')
+const KeyValueStorage = artifacts.require('KeyValueStorage')
 const BasicTokenLib = artifacts.require('BasicTokenLib')
 const StandardTokenLib = artifacts.require('StandardTokenLib')
 const WhitelistingTokenLib = artifacts.require('WhitelistingTokenLib')
@@ -18,7 +18,7 @@ const GlobCoinToken = artifacts.require('GlobCoinToken')
 describe('GlobCoin Main Functionalities', () => {
   describe('General', async () => {
 
-    let publicStorage
+    let keyValueStorage
     let basicTokenLib
     let standardTokenLib
     let whitelistingTokenLib
@@ -28,7 +28,7 @@ describe('GlobCoin Main Functionalities', () => {
     let globCoinToken
 
     beforeEach('setup contract for each test', async function () {
-      publicStorage = await PublicStorage.new()
+      keyValueStorage = await KeyValueStorage.new()
       basicTokenLib = await BasicTokenLib.new()
       standardTokenLib = await StandardTokenLib.new()
       whitelistingTokenLib = await WhitelistingTokenLib.new()
@@ -40,7 +40,7 @@ describe('GlobCoin Main Functionalities', () => {
       PausableTokenDelegate.link('WhitelistingTokenLib', whitelistingTokenLib.address);
 
       pausableTokenDelegate = await PausableTokenDelegate.new()
-      globCoinToken = await GlobCoinToken.new(publicStorage.address)
+      globCoinToken = await GlobCoinToken.new(keyValueStorage.address)
     })
 
     it('should be able to whitelist and mint to a new user', async () => {

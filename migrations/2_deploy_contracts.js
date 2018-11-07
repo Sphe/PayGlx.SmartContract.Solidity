@@ -28,7 +28,7 @@ module.exports = function(deployer) {
     GlobCoinToken.link('StandardTokenLib', StandardTokenLib.address);
     GlobCoinToken.link('WhitelistingTokenLib', WhitelistingTokenLib.address);
 
-    await deployer.deploy(GlobCoinToken, PublicStorage.address)
+    await deployer.deploy(GlobCoinToken, KeyValueStorage.address)
 
     let pausableTokenDelegate = await PausableTokenDelegate.deployed()
     let glx = await GlobCoinToken.deployed()
