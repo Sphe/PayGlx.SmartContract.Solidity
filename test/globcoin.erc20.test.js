@@ -10,6 +10,7 @@ const KeyValueStorage = artifacts.require('KeyValueStorage')
 const BasicTokenLib = artifacts.require('BasicTokenLib')
 const StandardTokenLib = artifacts.require('StandardTokenLib')
 const WhitelistingTokenLib = artifacts.require('WhitelistingTokenLib')
+const StorageLib = artifacts.require('StorageLib')
 const PausableTokenDelegate = artifacts.require('PausableTokenDelegate')
 const GlobCoinToken = artifacts.require('GlobCoinToken')
 
@@ -20,6 +21,7 @@ describe('GlobCoin Main Functionalities', () => {
     let basicTokenLib
     let standardTokenLib
     let whitelistingTokenLib
+    let storageLib
 
     let pausableTokenDelegate
     let globCoinToken
@@ -29,7 +31,9 @@ describe('GlobCoin Main Functionalities', () => {
       basicTokenLib = await BasicTokenLib.new()
       standardTokenLib = await StandardTokenLib.new()
       whitelistingTokenLib = await WhitelistingTokenLib.new()
+      storageLib = await StorageLib.new()
 
+      PausableTokenDelegate.link('StorageLib', storageLib.address);
       PausableTokenDelegate.link('BasicTokenLib', basicTokenLib.address);
       PausableTokenDelegate.link('StandardTokenLib', standardTokenLib.address);
       PausableTokenDelegate.link('WhitelistingTokenLib', whitelistingTokenLib.address);
@@ -37,6 +41,7 @@ describe('GlobCoin Main Functionalities', () => {
       pausableTokenDelegate = await PausableTokenDelegate.new()
       globCoinToken = await GlobCoinToken.new(keyValueStorage.address)
       await globCoinToken.upgradeTo(pausableTokenDelegate.address)
+      await keyValueStorage.setProxyCaller(globCoinToken.address);
     })
 
     it('should be able to whitelist and mint to a new user', async () => {
@@ -48,14 +53,14 @@ describe('GlobCoin Main Functionalities', () => {
 
     })
 
-    it('should be able to whipe and unwhitelist an existing user', async () => {
+    it('should be able to wipe and unwhitelist an existing user', async () => {
 
       let pausableToken = tokenObjectForPausableDelegate(globCoinToken)
       await pausableToken.whitelist(accounts[1])
       await pausableToken.mint(accounts[1], 1000000)
       expect((await pausableToken.balanceOf(accounts[1])).toNumber()).to.equal(1000000)
 
-      await pausableToken.whipeAddress(accounts[1])
+      await pausableToken.wipeAddress(accounts[1])
       await pausableToken.unWhitelist(accounts[1])
       await expectRevert(pausableToken.mint(accounts[1], 1000000))
 
@@ -82,7 +87,7 @@ describe('GlobCoin Main Functionalities', () => {
       await pausableToken.mint(accounts[1], 1000000)
       expect((await pausableToken.balanceOf(accounts[1])).toNumber()).to.equal(1000000)
 
-      await pausableToken.whipeAddress(accounts[1])
+      await pausableToken.wipeAddress(accounts[1])
 
       await pausableToken.burn.sendTransaction(100000, {from: accounts[0]})
       expect((await pausableToken.totalSupply()).toNumber()).to.equal(900000)
