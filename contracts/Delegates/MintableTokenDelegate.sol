@@ -1,14 +1,13 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
 import "../Libraries/BasicTokenLib.sol";
-import "./OwnableDelegate.sol";
 import "./StandardTokenDelegate.sol";
 
 
 /**
  * @title Mintable token
  */
-contract MintableTokenDelegate is StandardTokenDelegate, OwnableDelegate {
+contract MintableTokenDelegate is StandardTokenDelegate {
 
     event Mint(address indexed to, uint256 amount);
 

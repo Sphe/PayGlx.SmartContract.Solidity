@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
 import "../Libraries/BasicTokenLib.sol";
 import "../Libraries/WhitelistingTokenLib.sol";
@@ -18,7 +18,7 @@ contract WhitelistableTokenDelegate is BurnableTokenDelegate {
         _;
     }
 
-    function mint(address to, uint256 amount) public onlyOwner isWhitelisted(to) returns (bool) {
+    function mint(address to, uint256 amount) public isWhitelisted(to) returns (bool) {
         return super.mint(to, amount);
     }
 

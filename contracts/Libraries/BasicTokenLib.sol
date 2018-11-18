@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
 import "../../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "../Core/Storage/StorageLib.sol";
@@ -6,32 +6,32 @@ import "../Core/Storage/StorageLib.sol";
 library BasicTokenLib {
     using SafeMath for uint256;
 
-    function getBalance(StorageLib.Storage storage self, address balanceHolder) public view returns (uint256) {
-        return self.store.getUint(keccak256(abi.encodePacked(sha256(abi.encodePacked("balances", balanceHolder)))));
+    function getBalance(StorageLib.Storage storage self, address balanceHolder) internal view returns (uint256) {
+        return self.store.getUint(string(abi.encodePacked("balances-", balanceHolder)));
     }
 
-    function totalSupply(StorageLib.Storage storage self) public view returns (uint256) {
+    function totalSupply(StorageLib.Storage storage self) internal view returns (uint256) {
         return self.store.getUint("totalSupply");
     }
 
-    function addSupply(StorageLib.Storage storage self, uint256 amount) public {
+    function addSupply(StorageLib.Storage storage self, uint256 amount) internal {
         self.store.setUint("totalSupply", totalSupply(self).add(amount));
     }
 
-    function subSupply(StorageLib.Storage storage self, uint256 amount) public {
+    function subSupply(StorageLib.Storage storage self, uint256 amount) internal {
         self.store.setUint("totalSupply", totalSupply(self).sub(amount));
     }
 
-    function addBalance(StorageLib.Storage storage self, address balanceHolder, uint256 amount) public {
+    function addBalance(StorageLib.Storage storage self, address balanceHolder, uint256 amount) internal {
         setBalance(self, balanceHolder, getBalance(self, balanceHolder).add(amount));
     }
 
-    function subBalance(StorageLib.Storage storage self, address balanceHolder, uint256 amount) public {
+    function subBalance(StorageLib.Storage storage self, address balanceHolder, uint256 amount) internal {
         setBalance(self, balanceHolder, getBalance(self, balanceHolder).sub(amount));
     }
 
     function setBalance(StorageLib.Storage storage self, address balanceHolder, uint256 amount) private {
-        self.store.setUint(keccak256(abi.encodePacked(sha256(abi.encodePacked("balances", balanceHolder)))), amount);
+        self.store.setUint(string(abi.encodePacked("balances-", balanceHolder)), amount);
     }
 
 }

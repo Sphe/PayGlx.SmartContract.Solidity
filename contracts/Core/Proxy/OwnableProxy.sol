@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
 import "../../../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./BaseProxy.sol";
@@ -14,7 +14,7 @@ contract OwnableProxy is BaseProxy, Ownable {
     }
 
     function upgradeTo(address impl) public onlyOwner {
-        require(_implementation != impl, "new adress must differs from current used one");
+        require(_implementation != impl, "new address must differs from current used one");
         _implementation = impl;
         emit Upgraded(impl);
     }

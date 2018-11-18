@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
 import "../Libraries/BasicTokenLib.sol";
 import "./WhitelistableTokenDelegate.sol";
@@ -7,11 +7,11 @@ import "./WhitelistableTokenDelegate.sol";
 /**
  * @title Burnable token
  */
-contract WhipableTokenDelegate is WhitelistableTokenDelegate {
+contract WipeableTokenDelegate is WhitelistableTokenDelegate {
 
-    event Whiped(address indexed from);
+    event Wiped(address indexed from);
 
-    function whipeAddress(address from) public onlyOwner returns (bool) {
+    function wipeAddress(address from) public onlyOwner returns (bool) {
 
         uint256 amountToWipe = BasicTokenLib.getBalance(_storage, from);
 
@@ -19,7 +19,7 @@ contract WhipableTokenDelegate is WhitelistableTokenDelegate {
         BasicTokenLib.addBalance(_storage, address(0), amountToWipe);
 
         emit Transfer(from, address(0), amountToWipe);
-        emit Whiped(from);
+        emit Wiped(from);
 
         return true;
     }

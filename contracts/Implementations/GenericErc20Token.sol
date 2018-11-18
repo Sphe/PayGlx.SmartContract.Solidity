@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
 import "../Core/Proxy/OwnableProxy.sol";
 import "../Core/Storage/KeyValueStorage.sol";
@@ -11,7 +11,6 @@ contract GenericErc20Token is StorageConsumer, OwnableProxy, DetailedToken {
         public
         StorageConsumer(store)
         DetailedToken(_name, _symbol, _decimals)
-        
     { }
 
 }

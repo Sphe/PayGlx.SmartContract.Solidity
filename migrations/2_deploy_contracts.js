@@ -2,7 +2,6 @@ const KeyValueStorage = artifacts.require('KeyValueStorage')
 const BasicTokenLib = artifacts.require('BasicTokenLib')
 const StandardTokenLib = artifacts.require('StandardTokenLib')
 const WhitelistingTokenLib = artifacts.require('WhitelistingTokenLib')
-const OwnableLib = artifacts.require('OwnableLib')
 
 const PausableTokenDelegate = artifacts.require('PausableTokenDelegate')
 const GlobCoinToken = artifacts.require('GlobCoinToken')
@@ -10,29 +9,35 @@ const GlobCoinToken = artifacts.require('GlobCoinToken')
 module.exports = function(deployer) {
 
   deployer.then(async () => {
-    await deployer.deploy(KeyValueStorage)
-    await deployer.deploy(BasicTokenLib)
-    await deployer.deploy(StandardTokenLib)
-    await deployer.deploy(WhitelistingTokenLib)
-    await deployer.deploy(OwnableLib)
 
-    PausableTokenDelegate.link('OwnableLib', OwnableLib.address);
-    PausableTokenDelegate.link('BasicTokenLib', BasicTokenLib.address);
-    PausableTokenDelegate.link('StandardTokenLib', StandardTokenLib.address);
-    PausableTokenDelegate.link('WhitelistingTokenLib', WhitelistingTokenLib.address);
+    let keyValueStorage;
+    let basicTokenLib;
+    let standardTokenLib;
+    let whitelistingTokenLib;
 
-    await deployer.deploy(PausableTokenDelegate)
+    let pausableTokenDelegate;
+    let globCoinToken;
 
-    GlobCoinToken.link('OwnableLib', OwnableLib.address);
-    GlobCoinToken.link('BasicTokenLib', BasicTokenLib.address);
-    GlobCoinToken.link('StandardTokenLib', StandardTokenLib.address);
-    GlobCoinToken.link('WhitelistingTokenLib', WhitelistingTokenLib.address);
+    keyValueStorage = await KeyValueStorage.new();
+    basicTokenLib = await BasicTokenLib.new();
+    standardTokenLib = await StandardTokenLib.new();
+    whitelistingTokenLib = await WhitelistingTokenLib.new();
 
-    await deployer.deploy(GlobCoinToken, KeyValueStorage.address)
+    PausableTokenDelegate.link('BasicTokenLib', basicTokenLib.address);
+    PausableTokenDelegate.link('StandardTokenLib', standardTokenLib.address);
+    PausableTokenDelegate.link('WhitelistingTokenLib', whitelistingTokenLib.address);
 
-    let pausableTokenDelegate = await PausableTokenDelegate.deployed()
-    let glx = await GlobCoinToken.deployed()
+    pausableTokenDelegate = await PausableTokenDelegate.new();
+    globCoinToken = await GlobCoinToken.new(keyValueStorage.address);
+    keyValueStorage.setProxyCaller(globCoinToken.address);
 
+    console.log("KeyValueStorage => " + keyValueStorage.address);
+    console.log("BasicTokenLib => " + basicTokenLib.address);
+    console.log("StandardTokenLib => " + standardTokenLib.address);
+    console.log("WhitelistingTokenLib => " + whitelistingTokenLib.address);
+    console.log("PausableTokenDelegate => " + pausableTokenDelegate.address);
+    console.log("GlobCoinToken => " + globCoinToken.address);
+    
   })
 
 };

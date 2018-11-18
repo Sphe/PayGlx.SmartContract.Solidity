@@ -1,6 +1,12 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
-contract KeyValueStorage {
+import "../../../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
+
+contract KeyValueStorage is Ownable {
+
+    event ProxyUpdated(address indexed proxy);
+
+    address internal _proxy;
 
   /**** Storage Mappings ***********/
 
@@ -17,33 +23,44 @@ contract KeyValueStorage {
         _;
     }
 
+    modifier isPublicAllowed {
+        require(senderIsPublicValid(), "sender not valid");
+        _;
+    }
+
+    function setProxyCaller(address proxyImpl) public onlyOwner {
+        require(_proxy != proxyImpl, "new proxy address must differs from current used one");
+        _proxy = proxyImpl;
+        emit ProxyUpdated(proxyImpl);
+    }
+
     /**** Get Methods ***********/
 
-    function getAddress(bytes32 key) public view isAllowed returns (address) {
+    function getAddress(bytes32 key) public view isPublicAllowed returns (address) {
         return _addressStorage[key];
     }
 
-    function getUint(bytes32 key) public view isAllowed returns (uint) {
+    function getUint(bytes32 key) public view isPublicAllowed returns (uint) {
         return _uintStorage[key];
     }
 
-    function getString(bytes32 key) public view isAllowed returns (string) {
+    function getString(bytes32 key) public view isPublicAllowed returns (string) {
         return _stringStorage[key];
     }
 
-    function getBytes(bytes32 key) public view isAllowed returns (bytes) {
+    function getBytes(bytes32 key) public view isPublicAllowed returns (bytes) {
         return _bytesStorage[key];
     }
 
-    function getBytes32(bytes32 key) public view isAllowed returns (bytes32) {
+    function getBytes32(bytes32 key) public view isPublicAllowed returns (bytes32) {
         return _bytes32Storage[key];
     }
 
-    function getBool(bytes32 key) public view isAllowed returns (bool) {
+    function getBool(bytes32 key) public view isPublicAllowed returns (bool) {
         return _boolStorage[key];
     }
 
-    function getInt(bytes32 key) public view isAllowed returns (int) {
+    function getInt(bytes32 key) public view isPublicAllowed returns (int) {
         return _intStorage[key];
     }
 
@@ -110,7 +127,11 @@ contract KeyValueStorage {
     /**** Private Methods ***********/
 
     function senderIsValid() private view returns (bool) {
-        return msg.sender != 0x0;
+        return msg.sender == _proxy;
+    }
+
+    function senderIsPublicValid() private view returns (bool) {
+        return true;
     }
 
 }

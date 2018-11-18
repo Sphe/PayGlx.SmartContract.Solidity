@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
 contract BaseProxy {
 
@@ -6,7 +6,7 @@ contract BaseProxy {
  
     function () public payable {
         address _impl = implementation();
-        require(_impl != address(0), "adress error");
+        require(_impl != address(0), "address error");
         bytes memory data = msg.data;
 
         assembly {

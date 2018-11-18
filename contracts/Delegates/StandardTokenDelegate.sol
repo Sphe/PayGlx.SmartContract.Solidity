@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
 import "../../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "../../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
@@ -17,7 +17,7 @@ contract StandardTokenDelegate is ERC20, BasicTokenDelegate {
    * @param value uint256 the amount of tokens to be transferred
    */
     function transferFrom(address from, address to, uint256 value) public returns (bool) {
-        require(to != address(0), "sender adress must differs from receiver adress");
+        require(to != address(0), "sender address must differs from receiver address");
         require(value <= BasicTokenLib.getBalance(_storage, from), "insuficient balance");
         require(value <= StandardTokenLib.getAllowed(_storage, from, msg.sender), "no allowance");
 

@@ -10,9 +10,7 @@ const KeyValueStorage = artifacts.require('KeyValueStorage')
 const BasicTokenLib = artifacts.require('BasicTokenLib')
 const StandardTokenLib = artifacts.require('StandardTokenLib')
 const WhitelistingTokenLib = artifacts.require('WhitelistingTokenLib')
-const OwnableLib = artifacts.require('OwnableLib')
 const PausableTokenDelegate = artifacts.require('PausableTokenDelegate')
-const WhipableTokenDelegate = artifacts.require('WhipableTokenDelegate')
 const GlobCoinToken = artifacts.require('GlobCoinToken')
 
 describe('GlobCoin Main Functionalities', () => {
@@ -22,7 +20,6 @@ describe('GlobCoin Main Functionalities', () => {
     let basicTokenLib
     let standardTokenLib
     let whitelistingTokenLib
-    let ownableLib
 
     let pausableTokenDelegate
     let globCoinToken
@@ -32,20 +29,18 @@ describe('GlobCoin Main Functionalities', () => {
       basicTokenLib = await BasicTokenLib.new()
       standardTokenLib = await StandardTokenLib.new()
       whitelistingTokenLib = await WhitelistingTokenLib.new()
-      ownableLib = await OwnableLib.new()
 
-      PausableTokenDelegate.link('OwnableLib', ownableLib.address);
       PausableTokenDelegate.link('BasicTokenLib', basicTokenLib.address);
       PausableTokenDelegate.link('StandardTokenLib', standardTokenLib.address);
       PausableTokenDelegate.link('WhitelistingTokenLib', whitelistingTokenLib.address);
 
       pausableTokenDelegate = await PausableTokenDelegate.new()
       globCoinToken = await GlobCoinToken.new(keyValueStorage.address)
+      await globCoinToken.upgradeTo(pausableTokenDelegate.address)
     })
 
     it('should be able to whitelist and mint to a new user', async () => {
 
-      await globCoinToken.upgradeTo(pausableTokenDelegate.address)
       let pausableToken = tokenObjectForPausableDelegate(globCoinToken)
       await pausableToken.whitelist(accounts[1])
       await pausableToken.mint(accounts[1], 1000000)
@@ -55,7 +50,6 @@ describe('GlobCoin Main Functionalities', () => {
 
     it('should be able to whipe and unwhitelist an existing user', async () => {
 
-      await globCoinToken.upgradeTo(pausableTokenDelegate.address)
       let pausableToken = tokenObjectForPausableDelegate(globCoinToken)
       await pausableToken.whitelist(accounts[1])
       await pausableToken.mint(accounts[1], 1000000)
@@ -69,7 +63,6 @@ describe('GlobCoin Main Functionalities', () => {
 
     it('should be able to transfer from one user to another', async () => {
 
-      await globCoinToken.upgradeTo(pausableTokenDelegate.address)
       let pausableToken = tokenObjectForPausableDelegate(globCoinToken)
       await pausableToken.whitelist(accounts[1])
       await pausableToken.mint(accounts[1], 1000000)
@@ -84,7 +77,6 @@ describe('GlobCoin Main Functionalities', () => {
 
     it('owner should be able to burn from his account', async () => {
 
-      await globCoinToken.upgradeTo(pausableTokenDelegate.address)
       let pausableToken = tokenObjectForPausableDelegate(globCoinToken)
       await pausableToken.whitelist(accounts[1])
       await pausableToken.mint(accounts[1], 1000000)

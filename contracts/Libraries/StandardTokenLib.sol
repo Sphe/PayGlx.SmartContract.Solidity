@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
 import "../../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "../Core/Storage/StorageLib.sol";
@@ -11,9 +11,9 @@ library StandardTokenLib {
         address owner,
         address spender
     )
-      public view returns (uint256)
+      internal view returns (uint256)
     {
-        return self.store.getUint(keccak256(abi.encodePacked(sha256(abi.encodePacked("allowed", owner, spender)))));
+        return self.store.getUint(string(abi.encodePacked("allowed-", owner, spender)));
     }
 
     function addAllowed(
@@ -22,7 +22,7 @@ library StandardTokenLib {
         address spender,
         uint256 amount
     )
-      public
+      internal
     {
         setAllowed(self, owner, spender, getAllowed(self, owner, spender).add(amount));
     }
@@ -33,7 +33,7 @@ library StandardTokenLib {
         address spender,
         uint256 amount
     )
-      public
+      internal
     {
         setAllowed(self, owner, spender, getAllowed(self, owner, spender).sub(amount));
     }
@@ -44,9 +44,9 @@ library StandardTokenLib {
         address spender,
         uint256 amount
     )
-      public 
+      internal 
     {
-        self.store.setUint(keccak256(abi.encodePacked(sha256(abi.encodePacked("allowed", owner, spender)))), amount);
+        self.store.setUint(string(abi.encodePacked("allowed-", owner, spender)), amount);
     }
 
 }

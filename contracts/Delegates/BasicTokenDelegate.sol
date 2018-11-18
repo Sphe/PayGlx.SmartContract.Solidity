@@ -1,11 +1,12 @@
-pragma solidity ^0.4.24;
+pragma solidity 0.5.0;
 
+import "../../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "../../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Basic.sol";
 import "../../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "../Libraries/BasicTokenLib.sol";
 import "../Core/Storage/StorageState.sol";
 
-contract BasicTokenDelegate is StorageState, ERC20Basic {
+contract BasicTokenDelegate is StorageState, ERC20Basic, Ownable {
  
   /**
   * @dev total number of tokens in existence
