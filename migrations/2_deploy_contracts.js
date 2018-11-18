@@ -33,7 +33,8 @@ module.exports = function(deployer) {
 
     pausableTokenDelegate = await PausableTokenDelegate.new();
     globCoinToken = await GlobCoinToken.new(keyValueStorage.address);
-    keyValueStorage.setProxyCaller(globCoinToken.address);
+    await keyValueStorage.setProxyCaller(globCoinToken.address);
+    await globCoinToken.upgradeTo(pausableTokenDelegate.address);
 
     console.log("KeyValueStorage => " + keyValueStorage.address);
     console.log("StorageLib => " + storageLib.address);
@@ -42,7 +43,7 @@ module.exports = function(deployer) {
     console.log("WhitelistingTokenLib => " + whitelistingTokenLib.address);
     console.log("PausableTokenDelegate => " + pausableTokenDelegate.address);
     console.log("GlobCoinToken => " + globCoinToken.address);
-    
+
   })
 
 };
