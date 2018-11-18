@@ -3,12 +3,12 @@ pragma solidity 0.5.0;
 import "../../node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
 
 import "../Libraries/BasicTokenLib.sol";
-import "./WipableTokenDelegate.sol";
+import "./WipeableTokenDelegate.sol";
 
 /**
  * @title Burnable token
  */
-contract PausableTokenDelegate is WipableTokenDelegate, Pausable {
+contract PausableTokenDelegate is WipeableTokenDelegate, Pausable {
 
     function transfer(
         address _to,

@@ -1,6 +1,5 @@
 pragma solidity 0.5.0;
 
-import "../Libraries/OwnableLib.sol";
 import "../Core/Storage/KeyValueStorage.sol";
 import "./GenericErc20Token.sol";
 
