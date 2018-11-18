@@ -6,7 +6,7 @@ contract DetailedToken {
     string public symbol;
     uint8 public decimals;
 
-    constructor(string nameParam, string symbolParam, uint8 decimalsParam) public {
+    constructor(string memory nameParam, string memory symbolParam, uint8 decimalsParam) public {
         name = nameParam;
         symbol = symbolParam;
         decimals = decimalsParam;

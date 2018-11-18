@@ -44,11 +44,11 @@ contract KeyValueStorage is Ownable {
         return _uintStorage[key];
     }
 
-    function getString(bytes32 key) public view isPublicAllowed returns (string) {
+    function getString(bytes32 key) public view isPublicAllowed returns (string memory) {
         return _stringStorage[key];
     }
 
-    function getBytes(bytes32 key) public view isPublicAllowed returns (bytes) {
+    function getBytes(bytes32 key) public view isPublicAllowed returns (bytes memory) {
         return _bytesStorage[key];
     }
 
@@ -74,11 +74,11 @@ contract KeyValueStorage is Ownable {
         _uintStorage[key] = value;
     }
 
-    function setString(bytes32 key, string value) public isAllowed {
+    function setString(bytes32 key, string memory value) public isAllowed {
         _stringStorage[key] = value;
     }
 
-    function setBytes(bytes32 key, bytes value) public isAllowed {
+    function setBytes(bytes32 key, bytes memory value) public isAllowed {
         _bytesStorage[key] = value;
     }
 

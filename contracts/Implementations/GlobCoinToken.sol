@@ -13,7 +13,6 @@ contract GlobCoinToken is GenericErc20Token {
     public
     GenericErc20Token(store, NAME, SYMBOL, DECIMALS)
     {
-        OwnableLib.setOwner(_storage, msg.sender);
     }
 
 }
