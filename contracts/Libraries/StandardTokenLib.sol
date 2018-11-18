@@ -13,7 +13,7 @@ library StandardTokenLib {
     )
       internal view returns (uint256)
     {
-        return self.store.getUint(StorageLib.stringToBytes32(string(abi.encodePacked("allowed-", owner, spender)));
+        return self.store.getUint(StorageLib.stringToBytes32(string(abi.encodePacked("allowed-", owner, spender))));
     }
 
     function addAllowed(

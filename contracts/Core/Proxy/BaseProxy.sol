@@ -4,7 +4,7 @@ contract BaseProxy {
 
     function implementation() public view returns (address);
  
-    function () public payable {
+    function () external payable {
         address _impl = implementation();
         require(_impl != address(0), "address error");
         bytes memory data = msg.data;

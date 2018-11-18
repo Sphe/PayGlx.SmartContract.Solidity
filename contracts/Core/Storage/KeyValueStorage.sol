@@ -130,7 +130,7 @@ contract KeyValueStorage is Ownable {
         return msg.sender == _proxy;
     }
 
-    function senderIsPublicValid() private view returns (bool) {
+    function senderIsPublicValid() private pure returns (bool) {
         return true;
     }
 
