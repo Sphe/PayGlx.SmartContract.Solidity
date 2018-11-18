@@ -14,39 +14,24 @@ truffle console -network ropsten
 ```
 
 
-#### Example Init
+#### Ropsten deploy
 
 ```
-const PublicStorage = artifacts.require('PublicStorage')
-const BasicTokenLib = artifacts.require('BasicTokenLib')
-const StandardTokenLib = artifacts.require('StandardTokenLib')
-const WhitelistingTokenLib = artifacts.require('WhitelistingTokenLib')
-const OwnableLib = artifacts.require('OwnableLib')
-const PausableTokenDelegate = artifacts.require('PausableTokenDelegate')
-const GlobCoinToken = artifacts.require('GlobCoinToken')
-const GlobCoinOwnableToken = artifacts.require('GlobCoinOwnableToken')
+
+KeyValueStorage => 0xe1fd3f9b316fe5a41740e957b1413f806f432bc8
+StorageLib => 0x9a47eb6d849af4024e6ebdef62a90b43b6039c88
+BasicTokenLib => 0x7e3fb43686abdac9d2b42e9b54aa37cedd567261
+StandardTokenLib => 0x4f347f81b2b4c59d77f93b845b2c8e5150741e07
+WhitelistingTokenLib => 0xc1547fb24c82ff286570e245558cd1d7c1b959de
+PausableTokenDelegate => 0x429218b950007d38a24ed383f1617435c50abd57
+GlobCoinToken => 0xc254f787365adb2a486de155a5ab2dc2ea88c75e
 
 
-const basicTokenLib = await BasicTokenLib.new();
-const standardTokenLib = await StandardTokenLib.new();
-const whitelistingTokenLib = await WhitelistingTokenLib.new();
-const ownableLib = await OwnableLib.new();
+require("lodash")
+var glx = _.extend(GlobCoinToken.at("0xc254f787365adb2a486de155a5ab2dc2ea88c75e"), PausableTokenDelegate.at("0xc254f787365adb2a486de155a5ab2dc2ea88c75e"))
+glx.whitelist("0x80CEE7Be679172B18Fc97738FbF4D3b53deCce3C")
+glx.mint("0x80CEE7Be679172B18Fc97738FbF4D3b53deCce3C", 1000000)
 
-GlobCoinOwnableToken.link('OwnableLib', ownableLib.address);
-
-GlobCoinToken.link('BasicTokenLib', basicTokenLib.address);
-GlobCoinToken.link('StandardTokenLib', standardTokenLib.address);
-GlobCoinToken.link('WhitelistingTokenLib', whitelistingTokenLib.address);
-GlobCoinToken.link('OwnableLib', ownableLib.address);
-
-const publicStorage = await PublicStorage.new();
-const pausableTokenDelegate = await PausableTokenDelegate.new();
-
-let myToken1 = await GlobCoinOwnableToken.new(publicStorage.address);
-
-await myToken1.upgradeTo(pausableTokenDelegate.address);
-
-myToken1 = tokenObject(myToken1);
-
-await myToken1.mint(accounts[1], 0.01 * 10 ** 6);
 ```
+
+
